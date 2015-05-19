@@ -1,0 +1,20 @@
+NAME="@@__UID__@@-Ubuntu(Public)"
+CONTEXT=[
+    FILES="@@__ONE_VAR__@@/files/public-vm/init.sh @@__ONE_VAR__@@/.ssh",
+    ONE_UID="@@__UID__@@",
+    IS_EYWA="no",
+    IS_VR="no",
+    PASSWD="$USER[ROOT_PW]",
+    SSH_PUBLIC_KEY="@@__SSH_PUB_KEY__@@",
+    ETH0_IP="$NIC[IP,NETWORK=\"@@__PUBLIC_NET__@@\"]",
+    ETH0_MAC="$NIC[MAC,NETWORK=\"@@__PUBLIC_NET__@@\"]"
+]
+
+CPU="0.2"
+VCPU="2"
+DISK=[IMAGE="EYWA-Ubuntu-14.04_64",IMAGE_UNAME="oneadmin"]
+FEATURES=[ACPI="yes"]
+GRAPHICS=[LISTEN="0.0.0.0",TYPE="VNC"]
+MEMORY="256"
+NIC=[MODEL="virtio",NETWORK="@@__PUBLIC_NET__@@",NETWORK_UNANME="oneadmin"]
+OS=[ARCH="x86_64",BOOT="hd"]

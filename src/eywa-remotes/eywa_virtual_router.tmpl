@@ -1,0 +1,24 @@
+NAME="@@__UID__@@-EYWA-Router"
+CONTEXT=[
+	ONE_UID="@@__UID__@@",
+	IS_EYWA="yes",
+	IS_VR="yes",
+	FILES="@@__ONE_VAR__@@/files/eywa-vr/init.sh @@__ONE_VAR__@@/files/eywa-vr/iptables.rules @@__ONE_VAR__@@/files/eywa-vr/haproxy-cfg-gen @@__ONE_VAR__@@/files/eywa-vr/haproxy.cfg.tmpl @@__ONE_VAR__@@/files/eywa-vr/haproxy.init @@__ONE_VAR__@@/.ssh",
+	PASSWD="@@__VM_ROOT_PW__@@",
+	SSH_PUBLIC_KEY="@@__SSH_PUB_KEY__@@",
+	ETH0_IP="$NIC[IP,NETWORK=\"@@__PUBLIC_NET__@@\"]",
+	ETH0_MAC="$NIC[MAC,NETWORK=\"@@__PUBLIC_NET__@@\"]",
+	ETH0_GATEWAY="$NIC[GATEWAY,NETWORK=\"@@__PUBLIC_NET__@@\"]",
+	ETH1_IP="$NIC[IP,NETWORK=\"@@__UID__@@-Private-Net\"]",
+	ETH1_MAC="$NIC[MAC,NETWORK=\"@@__UID__@@-Private-Net\"]",
+	HAPROXY_CFG="http:0.0.0.0:8080:80:1000:100:10.0.0.3,10.0.0.4,10.0.0.5,10.0.0.6,10.0.0.7,10.0.0.8,10.0.0.9,10.0.0.10"
+]
+CPU="1"
+VCPU="1"
+DISK=[IMAGE="EYWA-Ubuntu-14.04_64",IMAGE_UNAME="oneadmin"]
+FEATURES=[ACPI="yes"]
+GRAPHICS=[LISTEN="0.0.0.0",TYPE="VNC"]
+MEMORY="512"
+NIC=[MODEL="virtio",NETWORK="@@__PUBLIC_NET__@@",NETWORK_UNAME="oneadmin"]
+NIC=[MODEL="virtio",NETWORK="@@__UID__@@-Private-Net",NETWORK_UNAME="oneadmin"]
+OS=[ARCH="x86_64",BOOT="hd"]

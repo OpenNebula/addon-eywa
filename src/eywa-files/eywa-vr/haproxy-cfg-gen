@@ -1,0 +1,39 @@
+#!/bin/bash
+
+## ${HAPROXY_CFG} Sample Format
+#HAPROXY_CFG="http:0.0.0.0:8080:80:1000:100:10.0.0.3,10.0.0.4,10.0.0.5"
+
+
+if [ "${HAPROXY_CFG}X" != "X" ]; then
+        CFG_DIR="/etc/haproxy/cfg.d"
+        rm -rf ${CFG_DIR}/*
+
+        for ARG in ${HAPROXY_CFG}
+        do
+                NAME=`echo ${ARG} | cut -d: -f1`
+                BIND_ADDRESS=`echo ${ARG} | cut -d: -f2`
+                FRONTEND_PORT=`echo ${ARG} | cut -d: -f3`
+                BACKEND_PORT=`echo ${ARG} | cut -d: -f4`
+                MAX_CONN_TOTAL=`echo ${ARG} | cut -d: -f5`
+                MAX_CONN_EACH=`echo ${ARG} | cut -d: -f6`
+                BACKEND_SERVERS=`echo ${ARG} | cut -d: -f7`
+
+                CFG_FILE=${CFG_DIR}/${NAME}.cfg
+                echo -e "listen ${NAME} ${BIND_ADDRESS}:${FRONTEND_PORT}" > ${CFG_FILE}
+                echo -e "\tmaxconn ${MAX_CONN_TOTAL}" >> ${CFG_FILE}
+                echo -e "\tstats enable" >> ${CFG_FILE}
+                echo -e "\tstats hide-version" >> ${CFG_FILE}
+                echo -e "\tstats uri /haproxy?stats" >> ${CFG_FILE}
+                echo -e "\tstats realm Haproxy\\ Statistics" >> ${CFG_FILE}
+                echo -e "\tstats auth admin:@@__PASS__@@" >> ${CFG_FILE}
+                echo -e "\tbalance roundrobin" >> ${CFG_FILE}
+                echo -e "\toption httpclose" >> ${CFG_FILE}
+                echo -e "\toption forwardfor" >> ${CFG_FILE}
+				NUM=1
+                for SERVER in `echo ${BACKEND_SERVERS} | sed -e 's/,/\ /g'`
+                do
+                        echo -e "\tserver ${NAME}-${NUM} ${SERVER}:${BACKEND_PORT} weight 1 maxconn ${MAX_CONN_EACH} check" >> ${CFG_FILE}
+						NUM=`expr $NUM + 1`
+                done
+        done
+fi

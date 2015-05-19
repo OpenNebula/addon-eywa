@@ -1,0 +1,226 @@
+# EYWA
+
+## Description
+
+* "EYWA"는 "Elastic load-balancing & high-availablitY Wired network Architecture"를 의미한다.
+* IaaS를 위한 차세대 데이터센터 네트워크 아키텍쳐.
+
+### PoC - Demo Video
+
+<a href="https://www.youtube.com/watch?v=FsXDuiWqmJk" alt="Click to watch the Video of PoC" target="_blank">
+  <img src="etc-files/YouTube-PoC.png" />
+</a>
+
+## Development
+
+To contribute bug patches or new features, you can use the github Pull Request model. It is assumed that code and documentation are contributed under the Apache License 2.0.
+
+More info:
+
+* [How to Contribute](http://opennebula.org/addons/contribute/)
+* Support: [OpenNebula user forum](https://forum.opennebula.org/c/support)
+* Development: [OpenNebula developers forum](https://forum.opennebula.org/c/development)
+* Issues Tracking: GitHub issues (https://)
+
+## Authors
+
+* Leader
+ * Jung jung-in (call518@gmail.com)
+ * Jeong Wook-jae (wjjung11@gmail.com) 
+
+## Compatibility
+
+EYWA Add-on은 Ubuntu Package기반으로 설치된 OpenNebula 4.6 및 4.10에서 최적화 및 호환되도록 구성 및 테스팅 되었다.
+
+Add-on 특성상, Network 환경 요소에 의존성이 높으며, 이에 Limitations 및 Requirements 내용에 대한 충분한 검토가 필요하다.
+
+### SandBox for Experience
+
+EYWA를 적용 및 도입 전, 기능과 변화를 모의 체험해 볼 수 있는 SandBox가 준비되어 있다.
+
+* Vagrant 및 Puppet으로 구성되어 있으며, 아래 Repository에서 확인 및 다운로드 할 수 있다.
+ * [EYWA on OpenNebula](https://gitlab.com/call518/EYWA-on-Vagrant)
+* EYWA Add-on의 사전 시뮬레이션 및 체험이 가능하다.
+
+## Features
+
+### The Benefits of EYWA
+
+1. Performance
+ * Load Balancing by Multiple VR (No Limit)
+2. High Availability
+ * HA by Multiple VR (No Limit)
+3. Traffic Engineering
+ * Save of Network Bandwidth
+ * Traffic Isolation by VxLAN (16,777,216)
+ * Multicast instead of Broadcast
+ * Decrease in Packet Floods
+ * Flat Address
+ * Multiple Gateway for Load-balancer of Inbound & Outbound Traffic
+4. Cost
+ * Multiple VR instead of L4 Switch (Single Router)
+ * Scalable VR
+
+#### in Public Network
+
+1. Load Balancing
+ * Load Balancing by Unlimited VRs(Virtual Router)
+ * Scale-out
+ * Load balanced Inbound & Outbound Traffic
+2. High Availability
+ * HA by Unlimited VRs
+3. Traffic Engineering
+ * Save of Network Bandwidth
+ * Low latency
+4. VM Migration
+
+#### in Private Network
+
+1. A large number of tenants
+ * A large number of VLANs
+ * Traffic Isolation by VxLAN (16,777,216)
+2. Large layer 2 network
+ * 10.0.0.0/8 (16,777,216 IPs) per Tenant
+ * Multicast instead of Broadcast, by VxLAN
+ * Decrease in MAC Flooding, by VxLAN
+ * Eliminate Broadcast (ToDo)
+
+### 투명하면서 확장 가능한 VR
+
+![Scalable Gateway](etc-files/EYWA-Scalable-Gateway.png)
+
+### Isolation & Traffic Engineering
+
+![Isolation & Traffic Engineering](etc-files/EYWA-Isolation-and-Traffic-Engineering.png)
+
+## Installation
+
+설치 도입부에서, 몇가지 환경 정보 입력을 필요로 한다.
+
+환경 정보 사항들을 미리 검토 하고 결정한 후에, 설치를 진행한다.
+
+### 요구되는 환경 정보
+
+* Front-End 장비의 IP 주소. (관리용이며, eywa DB 접근 목적)
+* 물리 호스트들의 root 계정 비밀번호.
+* MySQL root 비밀번호.
+* EYWA의 Private Network에 생성될 VM들에 지정할 root 계정의 비밀번호. (Optional)
+* EYWA의 Private Network에 생성될 VM들에 지정할 root 계정의 SSH 공개키 파일. (Optional)
+* OpenNebula에서 Public Network로 사용중인 Virtual Network 이름.
+* VxLAN 터널에 사용될 NIC(내부망 인터페이스) 이름.
+
+#### 환경 정보 입력 예제
+
+```
+[Your Input Values....]
+ * Front-End Node's IP: 172.21.20.11
+ * Physical Host's root password: 123456789
+ * MySQL root password: 123456789
+ * EYWA VM's root password: 123456789
+ * EYWA VM's SSH Public Key File: /var/lib/one/.ssh/id_rsa.pub
+ * EYWA Public Network Name: Public-Net
+ * Private NIC for VxLAN: eth0
+```
+
+### EYWA 설치 (install.sh)
+
+EYWA 설치라고 되어 있지만, 특별한 패키지 설치는 아니며, EYWA 운용 메카니즘 수행에 필요한 파일들을 OpenNebula에 배치하는 과정이다.
+
+* OpenNebula Front-End 호스트에서 실행한다.
+* root 사용자 권한으로 실행한다.
+* 모든 물리 호스트는 root 계정에 대해, SSH Password 로그인이 가능해야 한다.
+ * Hypervisor 노드에 수행될 작업도 Front-End노드에서 SSH를 통해 수행된다.
+ * 수동 설치시에는 불필요.
+
+```
+# ./install.sh
+```
+
+## Configuration
+
+* 설치 과정에서는 "환경 정보" 입력에만 주의 한다.
+* 현재 버전의 EYWA는 대부분 OpenNebula의 Hook 및 Contextualization 메카니즘에 의존적이다.
+ * Hook 및 Contextualization 메카니즘에 사용되는 스크립트이 핵심 역할 수행.
+ * (Note) 전체적인 Flow 요약 및 가각의 세부 설명에 대한 내용 준비중이다.
+
+### Hook 스크립트
+
+```
+fail_eywa_vr.sh
+set_eywa_net.sh
+set_eywa_user.sh
+set_eywa_vnet.sh
+unset_eywa_net.sh
+unset_eywa_user.sh
+```
+
+### Contextualization 스크립트
+
+```
+src/eywa-files/
+├── eywa-vm
+│   └── init.sh
+└── eywa-vr
+    ├── haproxy-cfg-gen
+    ├── haproxy.cfg.tmpl
+    ├── haproxy.init
+    ├── init.sh
+    └── iptables.rules
+``` 
+
+## Usage
+
+OpenNebula에 사용자를 생성함과 동시에, Hook에 의해 Tenant Network가 생성 및 준비 된다. (2가지 Template)
+
+ * Tenant Network 내에서 구동될 VM을 위한 Template
+ * Tenant Network와 External Network의 관문(Gateway) 역할을 담당하는 VR을 위한 Template
+
+### EYWA 구동 테스트 시나리오 예제
+
+1. Log in to Web-UI, by "oneadmin" user.
+2. Go to "System" Tab -> "Users" Tab.
+3. Click "+" Button.
+4. Create "oneadmin" User. (Password is that you want.)
+ * Then, Default Templates is generated. (in "Templates" Tab)
+5. EYWA-Virutal-Router(VR-1) is automatic launched. (in "Virtual Machines" Tab)
+6. When VR-1 is up, Create EYWA-VM(VM-1).
+7. Add VR-2 for LB/HA
+8. Add VM-2.
+9. Test Ping, to/on all Nodes.
+
+## Requirements
+
+1. VxLAN으로 인해, 물리 네트워크에 Jumbo-Frame 지원이 되거나, VM의 MTU가 1450이어야 한다.
+ * Default: CONTEXT(eywa-vr/init.sh 및 eywa-vm/init.sh) 스크립트에서 VM의 MTU가 1450으로 세팅된다.
+2. VR/VM의 Disk로 사용되는 Image(qcow2, Ubuntu_trusty_64)는 몇가지 사전 설정/설치로 인해 별도로 제공되고 있다.
+ * CONTEXT 스크립트(init.sh)로 기능 이관 후에는, 제한이 없어질 것으로 예상한다.
+ * 필요하다면, OpenNebula Marketplace에 등록 예상.
+3. EYWA 운영 상황을 별도의 MySQL Database(Name: eywa)로 관리한다.
+4. (Recommended) 외부망(External)과 내부망(Internal)의 인터페이스 분리 권장하나 단일 인터페이스라도 가능하다.
+ * e.g) External: eth0, Internal: eth1
+5. 현재 설치 자동화 스크립트(install.sh)는 Ubuntu 배포본만 지원되고 있다. RHEL계열 및 그외 Linux배포본에서는 내용 수정 또는 스크립트 내용을 참조하여 수동 설치 권장한다.
+6. KVM Hypervisor상에서 테스트 확인 되었다. 그외 Hypervisor에서도 제약은 없을 것으로 예상한다.
+
+## Limitations
+
+## References
+
+## Other
+
+### Architecture of EYWA
+
+### ToDo
+
+* VR 배치/스케일링을 위한 모니터링 및 스케쥴링 설계.
+ * e.g.) Static, Dynamic, Migration / Relocation, Etc...
+* Hook 메카니즘에서 Daemon(Controller)형태 또는 OpenNebula의 Custom Network Driver로 전환.
+* Traffic Engineering 측면에서, Arp-Proxy 및 Caching ARP 등의 기능 추가.
+* EYWA의 Metadata DB 최적화. (MySQL ewya)
+* 초기 버전이라 oned.conf에서 RESTRICTED_ATTR의 설정이 일괄 주석처리 되어 있는 상태이나, 조정 필요.
+* VR을 Docker 기반의 Container 형태 또는 Network Namespace 형태로 제공하는 방식 고려.
+
+![Architecture of EYWA](etc-files/EYWA-Architecture.png)
+
+### EYWA Scenario Sample
+
+![EYWA Scenario Sample.png](etc-files/EYWA-Scenario-Sample.png)

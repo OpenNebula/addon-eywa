@@ -1,0 +1,24 @@
+global
+  log 127.0.0.1   local0
+  log 127.0.0.1   local1 notice
+  #log loghost    local0 info
+  maxconn 4096
+  #debug
+  #quiet
+  #nbproc 4
+  user haproxy
+  group haproxy
+
+defaults
+  log     global
+  mode    http
+  option  httplog
+  option  dontlognull
+  retries 3
+  option redispatch
+  timeout connect 5s
+  timeout client 50s
+  timeout server 50s
+  balance  roundrobin
+
+# Set up application listeners here.
