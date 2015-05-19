@@ -20,7 +20,7 @@ ONE_GNAME=`$XPATH /USER/GNAME`
 
 #QUERY_MC_ADDRESS=`$MYSQL_EYWA -e "select num,address from mc_address where uid='' order by rand() limit 1"`
 #QUERY_MC_ADDRESS=`$MYSQL_EYWA -e "select num,address from mc_address where uid is null order by rand() limit 1"`
-QUERY_MC_ADDRESS=`$MYSQL_EYWA -e "select num,address from mc_address where uid is null limit 1"`
+QUERY_MC_ADDRESS=`$MYSQL_EYWA -e "select num,address from mc_address where uid is null or uid='' limit 1"`
 VXLAN_G_N=`echo $QUERY_MC_ADDRESS | awk '{print $1}'` # VXLAN Group Number
 VXLAN_G_A=`echo $QUERY_MC_ADDRESS | awk '{print $2}'` # VXLAN Group Address
 $MYSQL_EYWA -e "update mc_address set uid='$ONE_UID' where num='$VXLAN_G_N'"
