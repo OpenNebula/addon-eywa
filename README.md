@@ -206,7 +206,9 @@ unset_eywa_user.sh
 
 ### Traffic Flow of EYWA
 
-<iframe id="iframe_container" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" width="550" height="400" src="https://prezi.com/embed/ev6udwtvysnr/?bgcolor=ffffff&amp;lock_to_path=0&amp;autoplay=0&amp;autohide_ctrls=0&amp;PARENT_REQUEST_ID=6ecde5f1415c5672#"></iframe>
+<a href="https://prezi.com/ev6udwtvysnr/eywa-elastic-load-balancing-high-availability-wired-virtual-network-architecture/" alt="Click to watch Traffic Flow of EYWA" target="_blank">
+  <img src="etc-files/Traffic-Flow-of-EYWA.png" width="500" height="300" />
+</a>
 
 ### PoC - Demo Video
 
