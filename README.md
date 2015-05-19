@@ -38,7 +38,7 @@ More info:
 We were prepared so that you can try the simulated SandBox experience EYWA.
 
 * SandBox and consists of Vagrant and the Puppet, can be downloaded from the following Repository to test it.
- * <a href="https://gitlab.com/call518/EYWA-on-Vagrant/blob/master/README.md" alt="Open the Repository of EYWA SandBox" target="_blank">EYWA SandBox</a>
+ * <a href="https://github.com/call518/EYWA-on-Vagrant" alt="Open the Repository of EYWA SandBox" target="_blank">EYWA SandBox</a>
 
 ## Features
 
