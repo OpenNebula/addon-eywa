@@ -226,7 +226,7 @@ Further, there is a need for improvement.
 
 ## Limitations
 
-## References
+* Currently, Not support migration and VR deployment strategy (Required)
 
 ## Other
 
