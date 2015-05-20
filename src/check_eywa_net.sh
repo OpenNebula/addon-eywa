@@ -19,5 +19,5 @@ EYWA_NUM=`$MYSQL_EYWA -e "select num from mc_address where uid='$EYWA_UID'"`
 
 while ! $(ifconfig VSi${EYWA_NUM} >/dev/null 2>/dev/null)
 do
-	sleep 5
+	sleep 1
 done
