@@ -17,7 +17,11 @@ To contribute bug patches or new features, you can use the github Pull Request m
 
 More info:
 
-* Send message to us, Jung jung-in or Jeong wook-jae
+More info:
+* [How to Contribute](http://opennebula.org/software:add-ons#how_to_contribute_to_an_existing_add-on)
+* Support: [OpenNebula user mailing list](http://opennebula.org/community:mailinglists)
+* Development: [OpenNebula developers mailing list](http://opennebula.org/community:mailinglists)
+* Issues Tracking: Github issues (https://github.com/OpenNebula/addon-eywa/issues)
 
 ## Authors
 
@@ -28,8 +32,8 @@ More info:
 ## Compatibility
 
 * Optimization and compatibility was confirmed in OpenNebula 4.6 and 4.10.
-* Tested Hypervisor: KVM
-* Tested Store: NFS Shared, Qcow2(Default Datastore)
+* Support Hypervisor: Currently only supports kvm.
+ * (Recommended) "default" datastore's TM_MAD is QCOW2.
 * OpenNebula for the PoC was installed based on the document link in the following content.
  * http://docs.opennebula.org/4.10/design_and_installation/quick_starts/
 * (Tested on Ubuntu14.04amd64, we expect no problems in other platform.)
@@ -167,6 +171,26 @@ unset_eywa_user.sh
     └── iptables.rules
 ``` 
 
+### Modify OpenNebula VM_MAD of KVM
+
+Add custom script for EYWA, "/var/lib/one/remotes/vmm/check_eywa_net.sh"
+
+edit file, "/var/lib/one/remotes/vmm/kvm/deploy"
+
+The bottom line was added., before creating VM by virsh. because of VM_HOOK's ASYNC
+
+```
+source $(dirname $0)/../check_eywa_net.sh
+```
+
+#### Additional Description
+
+OpenNebula's HOOK is ASYNC, so EYWA's network hook script(set_eywa_net.sh) works by stochastic.
+
+The reason is, The BOOT step is dependent on the script of PROLOG(set_eywa_net.sh) step.
+
+Further, there is a need for improvement.
+
 ## Usage
 
 (Note) When you create a user in OpenNebula, the Tenant Network are created and prepared by Hook.
@@ -226,6 +250,7 @@ unset_eywa_user.sh
 * We are considering changing to a stop by Hook-script Custom-Network-Driver.
 * For efficient Traffic Engineering, it shall be additional features, such as Arp-Proxy and Caching ARP.
 * Metadata DB optimization of EYWA.
+* Supporting VM/VR Migration.
 * Although the state sets of RESTRICTED_ATTR this is all commented out in oned.conf, it is necessary to allow only the necessary policy adjustments.
 * Providing the VR in Docker Container or Network Namespace.
 
