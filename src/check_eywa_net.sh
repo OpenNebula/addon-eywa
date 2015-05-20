@@ -7,8 +7,14 @@ DB_PASS="@@__ONEADMIN_PW__@@"
 MYSQL_EYWA="mysql -u$DB_USER -p$DB_PASS -h$DB_HOST $DB_NAME -s -N"
 
 EYWA_VID=`grep "one-[0-9]" $domain | sed -e 's/<name>//g' | sed -e 's/<\/name>//g' | cut -d- -f2`
-
-EYWA_UID=`$MYSQL_EYWA -e "select uid from vm_info where vid='$EYWA_VID'"`
+while true
+do
+	EYWA_UID=`$MYSQL_EYWA -e "select uid from vm_info where vid='$EYWA_VID'"`
+	if [ "x$EYWA_UID" != "x" ]; then
+		break
+	fi
+	sleep 1
+done
 EYWA_NUM=`$MYSQL_EYWA -e "select num from mc_address where uid='$EYWA_UID'"`
 
 while ! $(ifconfig VSi${EYWA_NUM} >/dev/null 2>/dev/null)
