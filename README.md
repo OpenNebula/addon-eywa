@@ -28,6 +28,8 @@ More info:
 ## Compatibility
 
 * Optimization and compatibility was confirmed in OpenNebula 4.6 and 4.10.
+* Tested Hypervisor: KVM
+* Tested Store: NFS Shared, Qcow2(Default Datastore)
 * OpenNebula for the PoC was installed based on the document link in the following content.
  * http://docs.opennebula.org/4.10/design_and_installation/quick_starts/
 * (Tested on Ubuntu14.04amd64, we expect no problems in other platform.)

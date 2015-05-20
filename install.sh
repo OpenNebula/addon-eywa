@@ -105,16 +105,13 @@ mysqladmin -uroot password ${mysql_root_pw} 2> /dev/null
 service mysql restart
 
 ONE_HOST_LIST=$(su -l oneadmin -c "onehost list -x" | xmlstarlet sel -T -t -m //HOST_POOL/HOST/NAME -v . -n -)
-#for target in ${ONE_HOST_LIST}
-#do
-#	ssh root@${target} "ls -al $HOME/" 2>/dev/null >/dev/null
-#	if [ $? -ne 0 ]; then
-#		echo
-#		echo "[ERROR] This script is require SSH [root] permission on all OpenNebula hosts"
-#		echo "        e.g.) Deploy Front-End's root Public key file."
-#		exit 1
-#	fi
-#done
+
+SCRIPT_CHK_NET="${ONE_VAR}/remotes/vmm/check_eywa_net.sh"
+SCRIPT_KVM_DEPLOY="${ONE_VAR}/remotes/vmm/kvm/deploy"
+cp src/check_eywa_net.sh ${SCRIPT_CHK_NET}
+chmod 755 ${SCRIPT_CHK_NET}
+chown oneadmin:oneadmin ${SCRIPT_CHK_NET}
+sed -i '/^data/i source $(dirname $0)/../check_eywa_net.sh' ${SCRIPT_KVM_DEPLOY}
 
 if test ! -d ${ONE_LOG}/templates/; then
 	mkdir -p ${ONE_LOG}/templates/ 2>/dev/null
