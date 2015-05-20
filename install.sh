@@ -106,13 +106,6 @@ service mysql restart
 
 ONE_HOST_LIST=$(su -l oneadmin -c "onehost list -x" | xmlstarlet sel -T -t -m //HOST_POOL/HOST/NAME -v . -n -)
 
-SCRIPT_CHK_NET="${ONE_VAR}/remotes/vmm/check_eywa_net.sh"
-SCRIPT_KVM_DEPLOY="${ONE_VAR}/remotes/vmm/kvm/deploy"
-cp src/check_eywa_net.sh ${SCRIPT_CHK_NET}
-chmod 755 ${SCRIPT_CHK_NET}
-chown oneadmin:oneadmin ${SCRIPT_CHK_NET}
-sed -i '/^data/i source $(dirname $0)/../check_eywa_net.sh' ${SCRIPT_KVM_DEPLOY}
-
 if test ! -d ${ONE_LOG}/templates/; then
 	mkdir -p ${ONE_LOG}/templates/ 2>/dev/null
 	chown -R oneadmin:oneadmin ${ONE_LOG}/templates/
@@ -146,6 +139,17 @@ mysql -uroot -p${mysql_root_pw} -e "GRANT ALL PRIVILEGES ON eywa.* TO 'eywa'@'%'
 
 echo "[LOG] Creating DB Schema........"
 zcat /usr/local/src/eywa_schema.sql.gz | mysql -uroot -p${mysql_root_pw} eywa
+
+SCRIPT_CHK_NET="${ONE_VAR}/remotes/vmm/check_eywa_net.sh"
+SCRIPT_KVM_DEPLOY="${ONE_VAR}/remotes/vmm/kvm/deploy"
+if test ! -f ${SCRIPT_CHK_NET}; then
+	cp src/check_eywa_net.sh ${SCRIPT_CHK_NET}
+	chmod 755 ${SCRIPT_CHK_NET}
+	chown oneadmin:oneadmin ${SCRIPT_CHK_NET}
+	sed -i "s|@@__FRONT_IP__@@|${front_ip}|g" ${SCRIPT_CHK_NET}
+	sed -i "s|@@__ONEADMIN_PW__@@|${oneadmin_pw}|g" ${SCRIPT_CHK_NET}
+	sed -i '/^data/i source $(dirname $0)/../check_eywa_net.sh' ${SCRIPT_KVM_DEPLOY}
+fi
 
 if test ! -d ${ONE_VAR}/remotes/hooks/eywa; then
 	cp -a src/eywa-remotes ${ONE_VAR}/remotes/hooks/eywa

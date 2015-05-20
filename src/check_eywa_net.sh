@@ -1,9 +1,9 @@
 #!/bin/bash
 
-DB_HOST="192.168.33.10"
+DB_HOST="@@__FRONT_IP__@@"
 DB_NAME="eywa"
 DB_USER="eywa"
-DB_PASS="1234"
+DB_PASS="@@__ONEADMIN_PW__@@"
 MYSQL_EYWA="mysql -u$DB_USER -p$DB_PASS -h$DB_HOST $DB_NAME -s -N"
 
 EYWA_VID=`grep "one-[0-9]" $domain | sed -e 's/<name>//g' | sed -e 's/<\/name>//g' | cut -d- -f2`
