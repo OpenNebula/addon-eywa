@@ -185,4 +185,4 @@ do
 	${ssh_command} "echo 'Defaults env_keep -= \"HOME\"' >> /etc/sudoers"
 done
 
-while ! $(oneimage list | grep EYWA-Ubuntu | grep -q rdya); do echo; echo "[Notice] 'EYWA-Ubuntu-14.04_64' image is not ready.... please wait..."; su -l oneadmin -c 'oneimage list'; sleep 5; done
+while ! $(oneimage list | grep EYWA-Ubuntu | grep -q rdy); do echo; echo "[Notice] 'EYWA-Ubuntu-14.04_64' image is not ready.... please wait..."; su -l oneadmin -c 'oneimage list'; sleep 5; done
