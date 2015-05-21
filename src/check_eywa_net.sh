@@ -1,8 +1,12 @@
 #!/bin/bash
 
 EYWA_VID=`grep "one-[0-9]" $domain | sed -e 's/<name>//g' | sed -e 's/<\/name>//g' | cut -d- -f2`
+TMP_FILE=`mktemp`
+trap "rm -f $TMP_FILE" EXIT
 CONTEXT_FILE="/var/lib/one/vms/${EYWA_VID}/context.sh"
-source ${CONTEXT_FILE}
+su -l oneadmin -c "ssh -l oneadmin @@__FRONT_IP__@@ 'cat $CONTEXT_FILE'" > $TMP_FILE
+
+source $TMP_FILE
 
 if [ ${IS_EYWA} == "yes" ]; then
     DB_HOST="@@__FRONT_IP__@@"
