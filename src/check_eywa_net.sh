@@ -2,7 +2,6 @@
 
 EYWA_VID=`grep "one-[0-9]" $domain | sed -e 's/<name>//g' | sed -e 's/<\/name>//g' | cut -d- -f2`
 TMP_FILE=`mktemp`
-trap "rm -f $TMP_FILE" EXIT
 CONTEXT_FILE="/var/lib/one/vms/${EYWA_VID}/context.sh"
 #scp @@__FRONT_IP__@@:$CONTEXT_FILE $TMP_FILE
 ssh @@__FRONT_IP__@@ "cat $CONTEXT_FILE | grep 'IS_EYWA'" > $TMP_FILE
@@ -31,3 +30,5 @@ if [ "x${IS_EYWA}" == "xyes" ]; then
     	sleep 1
     done
 fi
+
+rm -f $TMP_FILE
