@@ -9,7 +9,7 @@ ssh @@__FRONT_IP__@@ "cat $CONTEXT_FILE | grep 'IS_EYWA'" > $TMP_FILE
 
 source $TMP_FILE
 
-if [ ${IS_EYWA} == "yes" ]; then
+if [ "x${IS_EYWA}" == "xyes" ]; then
     DB_HOST="@@__FRONT_IP__@@"
     DB_NAME="eywa"
     DB_USER="eywa"
