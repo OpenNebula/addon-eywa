@@ -2,7 +2,7 @@
 
 ## Description
 
-* "EYWA" is "Elastic load-balancing & high-availablitY Wired network Architecture".
+* **EYWA** is "**E**lastic load-balancing & high-availablit**Y** **W**ired network **A**rchitecture".
 * Next-generation data center network architecture for IaaS.
 
 ### About EYWA (SlideShare)
@@ -33,7 +33,7 @@ More info:
 
 * Optimization and compatibility was confirmed in OpenNebula 4.6 and 4.10.
 * Support Hypervisor: Currently only supports kvm.
- * (Recommended) "default" datastore's TM_MAD is QCOW2.
+ * (Recommended) "default" datastore's QCOW2 TM_MAD.
 * OpenNebula for the PoC was installed based on the document link in the following content.
  * http://docs.opennebula.org/4.10/design_and_installation/quick_starts/
 * (Tested on Ubuntu14.04amd64, we expect no problems in other platform.)
@@ -173,11 +173,11 @@ unset_eywa_user.sh
 
 ### Modify OpenNebula VM_MAD of KVM
 
-Add custom script for EYWA, "/var/lib/one/remotes/vmm/check_eywa_net.sh"
+Add custom script for EYWA, "/var/lib/one/remotes/vmm/check_eywa_net.sh".
 
-edit file, "/var/lib/one/remotes/vmm/kvm/deploy"
+edit file, "/var/lib/one/remotes/vmm/kvm/deploy".
 
-The bottom line was added., before creating VM by virsh. because of VM_HOOK's ASYNC
+(The bottom line was added., before creating VM by virsh. because of VM_HOOK's ASYNC.)
 
 ```
 source $(dirname $0)/../check_eywa_net.sh
@@ -185,11 +185,7 @@ source $(dirname $0)/../check_eywa_net.sh
 
 #### Additional Description
 
-OpenNebula's HOOK is ASYNC, so EYWA's network hook script(set_eywa_net.sh) works by stochastic.
-
-The reason is, The BOOT step is dependent on the script of PROLOG(set_eywa_net.sh) step.
-
-Further, there is a need for improvement.
+OpenNebula's HOOK is ASYNC, so EYWA's network hook script(set_eywa_net.sh) works by stochastic. The reason is, The BOOT step is dependent on the script of PROLOG(set_eywa_net.sh) step. Further, there is a need for improvement.
 
 ## Usage
 
@@ -252,6 +248,7 @@ Further, there is a need for improvement.
 * Metadata DB optimization of EYWA.
 * Supporting VM/VR Migration.
 * Although the state sets of RESTRICTED_ATTR this is all commented out in oned.conf, it is necessary to allow only the necessary policy adjustments.
+* Independent on VM_HOOK's ASYNC
 * Providing the VR in Docker Container or Network Namespace.
 
 ![Architecture of EYWA](etc-files/EYWA-Architecture.png)
