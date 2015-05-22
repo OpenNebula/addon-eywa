@@ -58,13 +58,13 @@ onetemplate chown $TMPL_ID $ONE_UID $ONE_GID
 mv $TMP /var/log/one/templates/
 
 ## Non-EYWA VM (Public VM) Template 배포
-TMPL="public_vm.tmpl"
-TMP="$ONE_UID-$TMPL.$$.$DATE"
-sed -e "s/@@__UID__@@/$ONE_UID/g" $TMPL >> $TMP
-TMPL_ID=`onetemplate create $TMP | awk '{print $NF}'`
-onetemplate chmod $TMPL_ID 600
-onetemplate chown $TMPL_ID $ONE_UID $ONE_GID
-mv $TMP /var/log/one/templates/
+#TMPL="public_vm.tmpl"
+#TMP="$ONE_UID-$TMPL.$$.$DATE"
+#sed -e "s/@@__UID__@@/$ONE_UID/g" $TMPL >> $TMP
+#TMPL_ID=`onetemplate create $TMP | awk '{print $NF}'`
+#onetemplate chmod $TMPL_ID 600
+#onetemplate chown $TMPL_ID $ONE_UID $ONE_GID
+#mv $TMP /var/log/one/templates/
 
 ## Quota 적용
 ## ("oneuser defaultquota"로 일괄 적용 상태. User별 조정이 필요하면 주석 해제 및 적절히 수정)
