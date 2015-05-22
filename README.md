@@ -194,6 +194,17 @@ OpenNebula's HOOK is ASYNC, so EYWA's network hook script(set_eywa_net.sh) works
  * Template for the VM to be driven in the Tenant Network
  * Template for VR(Virtual-Router) that is responsible for the gateway role between Tenant-Network and External-Network.
 
+### Default Templates
+
+* **{UID}-EYWA-Router**
+ * Role: EYWA Virtual Router Appliance for HA/LB.
+ * Tow NICs: eth0(External), eth1(Internal:10.0.0.1/8)
+ * Placement Strategy: One-VM per Physical-Host per Tenant. (If duplicated, it will delete..)
+* **{UID}-Ubuntu(EYWA)**
+ * Role: EYWA VM for Tenant's Application Instance.
+ * One NICs: eth0(Internal:10.0.0.0/8)
+ * Placement Strategy: N/A (by OpenNebula)
+
 ### Test Scenario of EYWA
 
 1. Log in to Web-UI, by "oneadmin" user.
