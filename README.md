@@ -233,7 +233,7 @@ OpenNebula's HOOK is ASYNC, so EYWA's network hook script(set_eywa_net.sh) works
 
 ## Limitations
 
-* Not yet support Migration of EYWA-VR(but, EYWA-VM is possible), and deployment strategy of EYWA-VR.
+* Not yet support Migration fo EYWA-VR/VM, and deployment strategy of EYWA-VR.
 
 ## Other
 
