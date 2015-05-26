@@ -4,7 +4,7 @@ EYWA_VID=`grep "one-[0-9]" $domain | sed -e 's/<name>//g' | sed -e 's/<\/name>//
 TMP_FILE=`mktemp`
 CONTEXT_FILE="/var/lib/one/vms/${EYWA_VID}/context.sh"
 #scp @@__FRONT_IP__@@:$CONTEXT_FILE $TMP_FILE
-ssh @@__FRONT_IP__@@ "cat $CONTEXT_FILE | grep 'IS_EYWA'" > $TMP_FILE
+ssh -l oneadmin @@__FRONT_IP__@@ "cat $CONTEXT_FILE | grep 'IS_EYWA'" > $TMP_FILE
 
 source $TMP_FILE
 
