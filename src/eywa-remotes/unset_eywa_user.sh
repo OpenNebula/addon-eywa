@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd @@__ONE_VAR__@@/remotes/hooks
+cd /var/lib/one/remotes/hooks
 
 DB_HOST="@@__FRONT_IP__@@"
 DB_NAME="eywa"
@@ -9,7 +9,7 @@ DB_PASS="@@__ONEADMIN_PW__@@"
 MYSQL_EYWA="mysql -u$DB_USER -p$DB_PASS -h$DB_HOST $DB_NAME -s -N"
 MYSQL_ONE="mysql -u$DB_USER -p$DB_PASS -h$DB_HOST opennebula"
 T64=$1
-#XPATH="@@__ONE_VAR__@@/remotes/datastore/xpath.rb -b $T64"
+#XPATH="/var/lib/one/remotes/datastore/xpath.rb -b $T64"
 XPATH="/var/tmp/one/hooks/eywa/xpath.rb -b $T64"
 
 ONE_UID=`$XPATH /USER/ID`
@@ -31,5 +31,3 @@ do
 done
 
 $MYSQL_EYWA -e "update mc_address set uid='' where uid='$ONE_UID'"
-
-exit 0
