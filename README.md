@@ -42,7 +42,8 @@ More info:
 ### SandBox: Two ways
 
 + With Fully-Automated Vagrant SandBox
- * Support Multiple Host: 3 nodes (1master/slave & 2slaves-only)
+ * Support Multiple Hosts: 3 nodes (1master/slave & 2slaves-only)
+ * "install.sh" script does not have to be executed. (This addon-eywa is pre-installed/configured)
  * We were prepared so that you can try the simulated fully-automated SandBox experience EYWA, /w Vagrant.
  * SandBox and consists of Vagrant and the Puppet, can be downloaded from the following Repository to test it.
  * <a href="https://github.com/call518/EYWA-on-Vagrant" alt="Open the Repository of EYWA Vagrant SandBox" target="_blank">EYWA Vagrant SandBox</a>
