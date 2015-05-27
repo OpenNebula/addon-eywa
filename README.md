@@ -39,12 +39,17 @@ More info:
 * (Tested on Ubuntu14.04amd64, we expect no problems in other platform.)
 * Add-on nature, Network highly dependent on environmental factors, there is a need for sufficient review of this Limitations and Requirements information.
 
-### SandBox for Experience
+### SandBox: Two ways
 
-We were prepared so that you can try the simulated SandBox experience EYWA.
-
-* SandBox and consists of Vagrant and the Puppet, can be downloaded from the following Repository to test it.
- * <a href="https://github.com/call518/EYWA-on-Vagrant" alt="Open the Repository of EYWA SandBox" target="_blank">EYWA SandBox</a>
++ With Fully-Automated Vagrant SandBox
+ * Support Multiple Host: 3 nodes (1master/slave & 2slaves-only)
+ * We were prepared so that you can try the simulated fully-automated SandBox experience EYWA, /w Vagrant.
+ * SandBox and consists of Vagrant and the Puppet, can be downloaded from the following Repository to test it.
+ * <a href="https://github.com/call518/EYWA-on-Vagrant" alt="Open the Repository of EYWA Vagrant SandBox" target="_blank">EYWA Vagrant SandBox</a>
++ With Offical OpenNebula VirtualBox SandBox
+ * Also, OpenNebula VirtualBox Appliance is possible.
+ * Run "install.sh" script in VirtualBox Appliance.
+ * <a href="http://opennebula.org/tryout/sandboxvirtualbox/" alt="Open the OpenNebula VIRTUALBOX SANDBOX" target="_blank">OpenNebula VIRTUALBOX SANDBOX</a>
 
 ## Features
 
