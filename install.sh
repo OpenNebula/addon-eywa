@@ -226,14 +226,16 @@ fi
 
 for target in ${ONE_HOST_LIST}
 do
-	ssh_command="sshpass -p'${host_root_pw}' ssh -o StrictHostKeyChecking=no -l root ${target}"
+	#ssh_command="sshpass -p'${host_root_pw}' ssh -o StrictHostKeyChecking=no -l root ${target}"
+	ssh_command="ssh -o StrictHostKeyChecking=no -i ${vm_root_key_file} -l oneadmin ${target}"
 	if [ $LSB_ID == "Ubuntu" ]; then
-		${ssh_command} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
+		#${ssh_command} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
+		${ssh_command} "sudo apt-get -q update >/dev/null && sudo apt-get -q -y install arptables"
 	else
-		${ssh_command} "rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
+		${ssh_command} "sudo rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
 	fi
-	${ssh_command} "echo 'oneadmin    ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
-	${ssh_command} "echo 'Defaults env_keep -= \"HOME\"' >> /etc/sudoers"
+	#${ssh_command} "echo 'oneadmin    ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+	#${ssh_command} "echo 'Defaults env_keep -= \"HOME\"' >> /etc/sudoers"
 done
 
 while ! $(oneimage list | grep EYWA-Ubuntu | grep -q rdy); do echo; echo "[Notice] 'EYWA-Ubuntu-14.04_64' image is not ready.... please wait..."; su -l oneadmin -c 'oneimage list'; sleep 5; done
