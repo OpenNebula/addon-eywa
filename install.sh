@@ -171,7 +171,7 @@ oneimage create \
 --name "EYWA-Ubuntu-14.04_64" \
 --path "/usr/local/src/EYWA-Ubuntu-14.04_64.qcow2.gz" \
 --driver qcow2 \
---prefix sd \
+--prefix vd \
 --datastore default
 EOF
 
