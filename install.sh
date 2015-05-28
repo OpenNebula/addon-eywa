@@ -234,9 +234,10 @@ if test ! -d /var/tmp/one/hooks/eywa; then
 	chmod 755 /var/tmp/one/hooks/eywa/*
 fi
 
+SSHPASS="${host_root_pw}"
 for target in ${ONE_HOST_LIST}
 do
-	ssh_command="sshpass -p \"${host_root_pw}\" ssh -o StrictHostKeyChecking=no -l root ${target}"
+	ssh_command="sshpass -e ssh -o StrictHostKeyChecking=no -l root ${target}"
 	if [ $LSB_ID == "Ubuntu" ]; then
 		${ssh_command} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
 	else
