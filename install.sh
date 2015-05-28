@@ -159,7 +159,7 @@ fi
 service opennebula restart
 
 if test ! -f /usr/local/src/EYWA-Ubuntu-14.04_64.qcow2.gz; then
-	wget --no-check-certificate 'https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110226' -O /usr/local/src/EYWA-Ubuntu-14.04_64.qcow2.gz
+	wget --no-check-certificate 'https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110256' -O /usr/local/src/EYWA-Ubuntu-14.04_64.qcow2.gz
 fi
 
 su -l oneadmin << EOF
