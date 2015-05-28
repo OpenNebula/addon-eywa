@@ -99,9 +99,6 @@ fi
 read -p "Input NIC name of private network for VxLAN (default: eth0): " private_nic
 private_nic=${private_nic:-eth0}
 
-read -p "'default' datastore's TM_MAD is qcow2 (default: y) (y/n)?: " datastore_default_qcow2
-datastore_default_qcow2=${datastore_default_qcow2:-y}
-
 echo "--------------------------------------------"
 echo "[Your Input Values....]"
 echo " * Front-End Node's IP: ${front_ip}"
@@ -111,7 +108,6 @@ echo " * EYWA VM's root password: ${vm_root_pw}"
 echo " * EYWA VM's SSH Public Key File: ${vm_root_key_file}"
 echo " * EYWA Public Network Name: ${one_public_net}"
 echo " * Private NIC for VxLAN: ${private_nic}"
-echo " * 'default' datastore's TM_MAD is qcow2: ${datastore_default_qcow2}"
 echo "--------------------------------------------"
 read -p "Confirm ? (y/n): " is_confirm
 
@@ -175,13 +171,13 @@ oneimage create \
 --datastore default
 EOF
 
-if [ ${datastore_default_qcow2} == "y" ]; then
-cp src/update-datastore-default.tmpl tmp/update-datastore-default.tmpl
-su -l oneadmin << EOF
-onedatastore update default /tmp/update-datastore-default.tmpl
-EOF
-rm -f /tmp/update-datastore-default.tmpl
-fi
+#if [ ${datastore_default_qcow2} == "y" ]; then
+#cp src/update-datastore-default.tmpl tmp/update-datastore-default.tmpl
+#su -l oneadmin << EOF
+#onedatastore update default /tmp/update-datastore-default.tmpl
+#EOF
+#rm -f /tmp/update-datastore-default.tmpl
+#fi
 
 if test ! -f /usr/local/src/eywa_schema.sql.gz; then
 	wget --no-check-certificate 'https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110238' -O /usr/local/src/eywa_schema.sql.gz
@@ -243,7 +239,9 @@ do
 	if [ $LSB_ID == "Ubuntu" ]; then
 		${ssh_command} ${target} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
 	else
-		${ssh_command} ${target} "rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
+		if ! rpm -qa | grep -q arptables; then
+			${ssh_command} ${target} "yum install -y arptables && rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
+		fi
 	fi
 	#${ssh_command} "echo 'oneadmin    ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 	#${ssh_command} "echo 'Defaults env_keep -= \"HOME\"' >> /etc/sudoers"
