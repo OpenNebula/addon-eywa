@@ -1,7 +1,9 @@
 #!/bin/bash
 
 #
-# Supported: Ubuntu and CentOS(RHEL).
+# Supported
+#     - Ubuntu-14.04
+#     - CentOS-6
 #
 
 if [ "$(whoami)" != "root" ]; then
@@ -124,6 +126,9 @@ if [ $LSB_ID == "Ubuntu" ]; then
 	apt-get -q -y install mysql-server libxml2-utils xmlstarlet sshpass
 else
 	yum install -y mysql-server libxml2 xmlstarlet sshpass
+	if ! $(rpm -qa | grep -q xmlstarlet); then
+		rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110253
+	fi
 	service mysqld start
 fi
 
