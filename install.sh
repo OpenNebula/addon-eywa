@@ -217,11 +217,16 @@ if [ ! -d ${ONE_VAR}/files/eywa-vr ] || [ ! -d ${ONE_VAR}/files/eywa-vm ]; then
     chmod -R 755 ${ONE_VAR}/files/eywa-vr ${ONE_VAR}/files/eywa-vm
 fi
 
-su -l oneadmin -c "onehost sync -f"
+su -l oneadmin -ci "onehost sync -f"
+if ! -d /var/tmp/one/hooks/eywa; then
+	cp -a /var/lib/one/remotes/hooks/eywa /var/tmp/one/hooks/eywa
+	chown -R oneadmin:oneadmin /var/tmp/one/hooks/eywa
+	chmod 755 /var/tmp/one/hooks/eywa/*
+fi
 
 for target in ${ONE_HOST_LIST}
 do
-	ssh_command="sshpass -p'${host_root_pw}' ssh -o StrictHostKeyChecking=no root@${target}"
+	ssh_command="sshpass -p'${host_root_pw}' ssh -o StrictHostKeyChecking=no -l root ${target}"
 	if [ $LSB_ID == "Ubuntu" ]; then
 		${ssh_command} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
 	else
