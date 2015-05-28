@@ -22,6 +22,12 @@ if [ $LSB_ID != "Ubuntu" ] && [ $LSB_ID != "CentOS" ]; then
 	exit 1
 fi
 
+if [ $LSB_ID == "CentOS" ] && [ `lsb_release -r | cut -f2 | cut -d. -f1` -lt 7 ]; then
+	echo
+	echo "[ERROR] Not Supoorted... This CentOS's Release is `lsb_release -r | cut -f2`. (must >=7)"
+	exit 1
+fi
+
 RESULT=$?
 if ! $(modprobe vxlan); then
 	echo
@@ -126,12 +132,12 @@ if [ $LSB_ID == "Ubuntu" ]; then
 	apt-get -q -y install mysql-server libxml2-utils xmlstarlet sshpass
 else
 	yum install -y mysql-server libxml2 xmlstarlet sshpass
-	if ! $(rpm -qa | grep -q xmlstarlet); then
-		rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110253
-	fi
-	if ! $(rpm -qa | grep -q sshpass); then
-		rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110254
-	fi
+	#if ! $(rpm -qa | grep -q xmlstarlet); then
+	#	rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110253
+	#fi
+	#if ! $(rpm -qa | grep -q sshpass); then
+	#	rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110254
+	#fi
 	service mysqld start
 fi
 

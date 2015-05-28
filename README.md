@@ -36,7 +36,7 @@ More info:
  * (Recommended) "default" datastore's QCOW2 TM_MAD.
 * OpenNebula for the PoC was installed based on the document link in the following content.
  * http://docs.opennebula.org/4.10/design_and_installation/quick_starts/
-* (Tested on Ubuntu14.04amd64, we expect no problems in other platform.)
+* (Tested on Ubuntu14.04amd64 and CentOS7.x, we expect no problems in other platform.)
 * Add-on nature, Network highly dependent on environmental factors, there is a need for sufficient review of this Limitations and Requirements information.
 
 ### SandBox: Two ways
@@ -47,10 +47,6 @@ More info:
  * We were prepared so that you can try the simulated fully-automated SandBox experience EYWA, /w Vagrant.
  * SandBox and consists of Vagrant and the Puppet, can be downloaded from the following Repository to test it.
  * <a href="https://github.com/call518/EYWA-on-Vagrant" alt="Open the Repository of EYWA Vagrant SandBox" target="_blank">EYWA Vagrant SandBox</a>
-+ With Offical OpenNebula VirtualBox SandBox
- * (Issue) Not yet, because VxLAN. The hypervisors must run a Linux kernel (>3.7.0)
- * Run "install.sh" script in VirtualBox Appliance.
- * <a href="http://opennebula.org/tryout/sandboxvirtualbox/" alt="Open the OpenNebula VIRTUALBOX SANDBOX" target="_blank">OpenNebula VIRTUALBOX SANDBOX</a>
 
 ## Features
 
@@ -234,7 +230,7 @@ OpenNebula's HOOK is ASYNC, so EYWA's network hook script(set_eywa_net.sh) works
 3. EYWA manages the meta-information to the MySQL Database.
 4. We recommend separation of the external NIC and internal NIC. However, it is a single NIC is available.
  * e.g) External: eth0, Internal: eth1
-5. Current automated installation script (install.sh) is only supported Ubuntu distribution. In RHEL based Linux distributions and other information, refer to the manual modification or script contents and installation recommendations.
+5. Current automated installation script (install.sh) is supported Ubuntu14.04 and CentOS7 distribution. (Ubuntu14.04 is Recommended)
 6. We tested based on the KVM Hypervisor. We expect no restrictions in other Hypervisor.
 
 ## Limitations
