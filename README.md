@@ -41,17 +41,16 @@ More info:
 
 ### SandBox: Two ways
 
-+ With Fully-Automated Vagrant SandBox
++ With Fully-Automated Vagrant SandBox (Recommended)
  * Support Multiple Hosts: 3 nodes (1master/slave & 2slaves-only)
  * "install.sh" script does not have to be executed. (This addon-eywa is pre-installed/configured)
  * We were prepared so that you can try the simulated fully-automated SandBox experience EYWA, /w Vagrant.
  * SandBox and consists of Vagrant and the Puppet, can be downloaded from the following Repository to test it.
  * <a href="https://github.com/call518/EYWA-on-Vagrant" alt="Open the Repository of EYWA Vagrant SandBox" target="_blank">EYWA Vagrant SandBox</a>
 + With Offical OpenNebula VirtualBox SandBox
- * Also, OpenNebula VirtualBox Appliance is possible.
+ * (Issue) Not yet, because VxLAN. The hypervisors must run a Linux kernel (>3.7.0)
  * Run "install.sh" script in VirtualBox Appliance.
  * <a href="http://opennebula.org/tryout/sandboxvirtualbox/" alt="Open the OpenNebula VIRTUALBOX SANDBOX" target="_blank">OpenNebula VIRTUALBOX SANDBOX</a>
- * (Note) Requirement: Upgrade Kernel by "yum upgrade kernel"(because of vxlan module) and QCOW3 Version.
 
 ## Features
 
