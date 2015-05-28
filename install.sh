@@ -99,6 +99,9 @@ fi
 read -p "Input NIC name of private network for VxLAN (default: eth0): " private_nic
 private_nic=${private_nic:-eth0}
 
+read -p "'default' datastore's TM_MAD is qcow2 (default: y) (y/n)?: " datastore_default_qcow2
+datastore_default_qcow2=${datastore_default_qcow2:-y}
+
 echo "--------------------------------------------"
 echo "[Your Input Values....]"
 echo " * Front-End Node's IP: ${front_ip}"
@@ -108,6 +111,7 @@ echo " * EYWA VM's root password: ${vm_root_pw}"
 echo " * EYWA VM's SSH Public Key File: ${vm_root_key_file}"
 echo " * EYWA Public Network Name: ${one_public_net}"
 echo " * Private NIC for VxLAN: ${private_nic}"
+echo " * 'default' datastore's TM_MAD is qcow2: ${datastore_default_qcow2}"
 echo "--------------------------------------------"
 read -p "Confirm ? (y/n): " is_confirm
 
@@ -170,6 +174,12 @@ oneimage create \
 --prefix sd \
 --datastore default
 EOF
+
+if [ ${datastore_default_qcow2} == "y" ]; then
+su -l oneadmin << EOF
+onedatastore update default src/update-datastore-default.tmpl
+EOF
+fi
 
 if test ! -f /usr/local/src/eywa_schema.sql.gz; then
 	wget --no-check-certificate 'https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110238' -O /usr/local/src/eywa_schema.sql.gz
