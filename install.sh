@@ -218,7 +218,7 @@ if [ ! -d ${ONE_VAR}/files/eywa-vr ] || [ ! -d ${ONE_VAR}/files/eywa-vm ]; then
 fi
 
 su -l oneadmin -c "onehost sync -f"
-if ! -d /var/tmp/one/hooks/eywa; then
+if test ! -d /var/tmp/one/hooks/eywa; then
 	cp -a /var/lib/one/remotes/hooks/eywa /var/tmp/one/hooks/eywa
 	chown -R oneadmin:oneadmin /var/tmp/one/hooks/eywa
 	chmod 755 /var/tmp/one/hooks/eywa/*
