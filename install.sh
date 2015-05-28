@@ -1,9 +1,37 @@
 #!/bin/bash
 
+#
+# Supported: Ubuntu and CentOS(RHEL).
+#
+
 if [ "$(whoami)" != "root" ]; then
 	echo
 	echo "[ERROR] Retry command, by [root] user...."
 	exit 1
+fi
+
+yum install -y redhat-lsb-core 2>/dev/null
+
+LSB_ID=`lsb_release -i --short`
+
+if [ $LSB_ID != "Ubuntu" ] && [ $LSB_ID != "CentOS" ]; then
+	echo
+	echo "[ERROR] Not Supoorted... This System's Distributor ID is $LSB_ID... Try upgrade kernel..."
+	exit 1
+fi
+
+RESULT=$?
+if ! $(modprobe vxlan); then
+	echo
+	echo "[ERROR] This system is not support VxLAN...Try upgrade kernel... ('/sbin/modprobe vxlan' command is failed)"
+	exit 1
+fi
+
+if [ $LSB_ID == "Ubuntu" ]; then
+	test ! $(grep -q vxlan /etc/modules) && echo "vxlan" >> /etc/modules
+else
+	MODULE_FILE="/etc/sysconfig/modules/vxlan.modules"
+	test ! -f $MODULE_FILE && echo -e "#!/bin/bash\nmodprobe vxlan" > $MODULE_FILE && chmod 755 $MODULE_FILE
 fi
 
 ONE_CONF=${ONE_USER:-/etc/one/oned.conf}
@@ -21,17 +49,12 @@ fi
 
 echo
 
+if ! $(grep -q "StrictHostKeyChecking no" /root/.ssh/config); then echo -e "Host *\n    StrictHostKeyChecking no\n    UserKnownHostsFile /dev/null" >> /root/.ssh/config; fi 2> /dev/null
+
 ## Backup oned.conf
 cp -a ${ONE_CONF} ${ONE_CONF}.`date +%Y%m%d_%H%M%S`
 
 #front_ip=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
-
-modprobe vxlan 2>/dev/null
-RESULT=$?
-if [ ${RESULT} -ne 0 ]; then
-	echo "[ERROR] This system is not support VxLAN (Failed, /sbin/modprobe vxlan)"
-	exit 1
-fi
 
 read -p "Input Front-End Host's IP-Address: " front_ip
 if [ -z ${front_ip} ]; then
@@ -95,14 +118,23 @@ fi
 echo
 echo "[LOG] Starting........."
 
-export DEBIAN_FRONTEND=noninteractive
+if [ $LSB_ID == "Ubuntu" ]; then
+	export DEBIAN_FRONTEND=noninteractive
+	apt-get -q update >/dev/null
+	apt-get -q -y install mysql-server libxml2-utils xmlstarlet sshpass
+else
+	yum install -y mysql-server libxml2 xmlstarlet sshpass
+	service mysqld start
+fi
 
-apt-get -q update >/dev/null
-apt-get -q -y install mysql-server libxml2-utils xmlstarlet sshpass
-
-sed -i 's/^bind-address/#bind-address/g' /etc/mysql/my.cnf
 mysqladmin -uroot password ${mysql_root_pw} 2> /dev/null
-service mysql restart
+if [ $LSB_ID == "Ubuntu" ]; then
+	sed -i 's/^bind-address/#bind-address/g' /etc/mysql/my.cnf
+	service mysql restart
+else
+	sed -i 's/^bind-address/#bind-address/g' /etc/my.cnf
+	service mysqld restart
+fi
 
 ONE_HOST_LIST=$(su -l oneadmin -c "onehost list -x" | xmlstarlet sel -T -t -m //HOST_POOL/HOST/NAME -v . -n -)
 
@@ -119,18 +151,20 @@ fi
 service opennebula restart
 
 if test ! -f /usr/local/src/EYWA-Ubuntu-14.04_64.qcow2.gz; then
-	wget 'https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110226' -O /usr/local/src/EYWA-Ubuntu-14.04_64.qcow2.gz
+	wget --no-check-certificate 'https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110226' -O /usr/local/src/EYWA-Ubuntu-14.04_64.qcow2.gz
 fi
 
+su -l oneadmin << EOF
 oneimage create \
 --name "EYWA-Ubuntu-14.04_64" \
 --path "/usr/local/src/EYWA-Ubuntu-14.04_64.qcow2.gz" \
 --driver qcow2 \
 --prefix sd \
 --datastore default
+EOF
 
 if test ! -f /usr/local/src/eywa_schema.sql.gz; then
-	wget 'https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110238' -O /usr/local/src/eywa_schema.sql.gz
+	wget --no-check-certificate 'https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110238' -O /usr/local/src/eywa_schema.sql.gz
 fi
 
 mysql -uroot -p${mysql_root_pw} -e "CREATE DATABASE eywa"
@@ -180,7 +214,11 @@ su -l oneadmin -c "onehost sync -f"
 for target in ${ONE_HOST_LIST}
 do
 	ssh_command="sshpass -p'${host_root_pw}' ssh -o StrictHostKeyChecking=no root@${target}"
-	${ssh_command} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
+	if [ $LSB_ID == "Ubuntu" ]; then
+		${ssh_command} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
+	else
+		${ssh_command} "rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
+	fi
 	${ssh_command} "echo 'oneadmin    ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 	${ssh_command} "echo 'Defaults env_keep -= \"HOME\"' >> /etc/sudoers"
 done
