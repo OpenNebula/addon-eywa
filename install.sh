@@ -217,7 +217,7 @@ if [ ! -d ${ONE_VAR}/files/eywa-vr ] || [ ! -d ${ONE_VAR}/files/eywa-vm ]; then
     chmod -R 755 ${ONE_VAR}/files/eywa-vr ${ONE_VAR}/files/eywa-vm
 fi
 
-su -l oneadmin -ci "onehost sync -f"
+su -l oneadmin -c "onehost sync -f"
 if ! -d /var/tmp/one/hooks/eywa; then
 	cp -a /var/lib/one/remotes/hooks/eywa /var/tmp/one/hooks/eywa
 	chown -R oneadmin:oneadmin /var/tmp/one/hooks/eywa
@@ -226,13 +226,11 @@ fi
 
 for target in ${ONE_HOST_LIST}
 do
-	#ssh_command="sshpass -p'${host_root_pw}' ssh -o StrictHostKeyChecking=no -l root ${target}"
-	ssh_command="ssh -o StrictHostKeyChecking=no -i ${vm_root_key_file} -l oneadmin ${target}"
+	ssh_command="sshpass -p'${host_root_pw}' ssh -o StrictHostKeyChecking=no -l root ${target}"
 	if [ $LSB_ID == "Ubuntu" ]; then
-		#${ssh_command} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
-		${ssh_command} "sudo apt-get -q update >/dev/null && sudo apt-get -q -y install arptables"
+		${ssh_command} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
 	else
-		${ssh_command} "sudo rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
+		${ssh_command} "rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
 	fi
 	#${ssh_command} "echo 'oneadmin    ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 	#${ssh_command} "echo 'Defaults env_keep -= \"HOME\"' >> /etc/sudoers"
