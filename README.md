@@ -51,7 +51,7 @@ More info:
  * Also, OpenNebula VirtualBox Appliance is possible.
  * Run "install.sh" script in VirtualBox Appliance.
  * <a href="http://opennebula.org/tryout/sandboxvirtualbox/" alt="Open the OpenNebula VIRTUALBOX SANDBOX" target="_blank">OpenNebula VIRTUALBOX SANDBOX</a>
- * (Note) Requirement: Upgrade Kernel by "yum upgrade kernel". (because of vxlan module)
+ * (Note) Requirement: Upgrade Kernel by "yum upgrade kernel"(because of vxlan module) and QCOW3 Version.
 
 ## Features
 
