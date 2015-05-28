@@ -176,9 +176,11 @@ oneimage create \
 EOF
 
 if [ ${datastore_default_qcow2} == "y" ]; then
+cp src/update-datastore-default.tmpl tmp/update-datastore-default.tmpl
 su -l oneadmin << EOF
-onedatastore update default src/update-datastore-default.tmpl
+onedatastore update default /tmp/update-datastore-default.tmpl
 EOF
+rm -f /tmp/update-datastore-default.tmpl
 fi
 
 if test ! -f /usr/local/src/eywa_schema.sql.gz; then
@@ -235,13 +237,13 @@ if test ! -d /var/tmp/one/hooks/eywa; then
 fi
 
 export SSHPASS="${host_root_pw}"
+ssh_command="sshpass -e ssh -o StrictHostKeyChecking=no -l root"
 for target in ${ONE_HOST_LIST}
 do
-	ssh_command="sshpass -e ssh -o StrictHostKeyChecking=no -l root ${target}"
 	if [ $LSB_ID == "Ubuntu" ]; then
-		${ssh_command} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
+		${ssh_command} ${target} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
 	else
-		${ssh_command} "rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
+		${ssh_command} ${target} "rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
 	fi
 	#${ssh_command} "echo 'oneadmin    ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 	#${ssh_command} "echo 'Defaults env_keep -= \"HOME\"' >> /etc/sudoers"
