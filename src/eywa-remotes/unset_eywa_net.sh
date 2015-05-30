@@ -30,7 +30,7 @@ EXIST_EYWA_VMs=`$MYSQL_EYWA -e "select count(*) from vm_info where is_vr='0' and
 #--------------------------------------------------------------------------------------------
 
 function undeploy_network() {
-	sudo ifconfig VSi$VXLAN_G_N down
+	sudo ip link set down dev VSi$VXLAN_G_N
 	sudo brctl delif VSi$VXLAN_G_N vxlan$VXLAN_G_N
 	sudo ip link delete vxlan$VXLAN_G_N
 	sudo brctl delbr VSi$VXLAN_G_N
