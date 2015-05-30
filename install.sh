@@ -12,7 +12,7 @@ if [ "$(whoami)" != "root" ]; then
 	exit 1
 fi
 
-yum install -y redhat-lsb-core 2>/dev/null
+yum install -y redhat-lsb-core 2> /dev/null
 
 LSB_ID=`lsb_release -i --short`
 
@@ -128,7 +128,7 @@ echo "[LOG] Starting........."
 
 if [ $LSB_ID == "Ubuntu" ]; then
 	export DEBIAN_FRONTEND=noninteractive
-	apt-get -q update >/dev/null
+	apt-get -q update > /dev/null
 	apt-get -q -y install mysql-server libxml2-utils xmlstarlet sshpass
 else
 	yum install -y mysql-server libxml2 xmlstarlet sshpass
@@ -153,7 +153,7 @@ fi
 ONE_HOST_LIST=$(su -l oneadmin -c "onehost list -x" | xmlstarlet sel -T -t -m //HOST_POOL/HOST/NAME -v . -n -)
 
 if test ! -d ${ONE_LOG}/templates/; then
-	mkdir -p ${ONE_LOG}/templates/ 2>/dev/null
+	mkdir -p ${ONE_LOG}/templates/ 2> /dev/null
 	chown -R oneadmin:oneadmin ${ONE_LOG}/templates/
 fi
 
@@ -221,8 +221,8 @@ if test ! -d ${ONE_VAR}/remotes/hooks/eywa; then
 fi
 
 if [ ! -d ${ONE_VAR}/files/eywa-vr ] || [ ! -d ${ONE_VAR}/files/eywa-vm ]; then
-	rm -rf ${ONE_VAR}/files/eywa-vr 2>/dev/null
-	rm -rf ${ONE_VAR}/files/eywa-vm 2>/dev/null
+	rm -rf ${ONE_VAR}/files/eywa-vr 2> /dev/null
+	rm -rf ${ONE_VAR}/files/eywa-vm 2> /dev/null
 	mkdir -p ${ONE_VAR}/files/eywa-*
 	cp -a src/eywa-files/eywa-vr ${ONE_VAR}/files/
 	cp -a src/eywa-files/eywa-vm ${ONE_VAR}/files/
@@ -231,7 +231,7 @@ if [ ! -d ${ONE_VAR}/files/eywa-vr ] || [ ! -d ${ONE_VAR}/files/eywa-vm ]; then
     chmod -R 755 ${ONE_VAR}/files/eywa-vr ${ONE_VAR}/files/eywa-vm
 fi
 
-su -l oneadmin -c "onehost sync -f"
+onehost sync -f 2> /dev/null && su -l oneadmin -c "onehost sync -f" 2> /dev/null
 if test ! -d /var/tmp/one/hooks/eywa; then
 	cp -a /var/lib/one/remotes/hooks/eywa /var/tmp/one/hooks/eywa
 	chown -R oneadmin:oneadmin /var/tmp/one/hooks/eywa
@@ -243,7 +243,7 @@ ssh_command="sshpass -e ssh -o StrictHostKeyChecking=no -l root"
 for target in ${ONE_HOST_LIST}
 do
 	if [ $LSB_ID == "Ubuntu" ]; then
-		${ssh_command} ${target} "apt-get -q update >/dev/null && apt-get -q -y install arptables"
+		${ssh_command} ${target} "apt-get -q update > /dev/null && apt-get -q -y install arptables"
 	else
 		if ! rpm -qa | grep -q arptables; then
 			${ssh_command} ${target} "yum install -y arptables && rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
