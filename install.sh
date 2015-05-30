@@ -84,8 +84,9 @@ mysql_root_pw=${mysql_root_pw:-passw0rd}
 read -p "Input EYWA VM's [root] password (default: passw0rd): " vm_root_pw
 vm_root_pw=${vm_root_pw:-passw0rd}
 
-read -p "Input EYWA VM's [root] SSH Public Key File (default: ${ONE_VAR}/.ssh/id_rsa.pub): " vm_root_key_file
-vm_root_key_file=${vm_root_key_file:-/var/lib/one/.ssh/id_rsa.pub}
+DEFAULT_VM_ROOT_KEY_FILE=`find ${ONE_VAR}/.ssh/ | grep pub | head -n 1`
+read -p "Input EYWA VM's [root] SSH Public Key File (default: ${DEFAULT_VM_ROOT_KEY_FILE}): " vm_root_key_file
+vm_root_key_file=${vm_root_key_file:-${DEFAULT_VM_ROOT_KEY_FILE}}
 vm_root_key="$(cat ${vm_root_key_file})"
 
 oneadmin_pw=$(cat /var/lib/one/.one/one_auth | cut -d: -f2)
