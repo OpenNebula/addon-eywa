@@ -262,7 +262,7 @@ OpenNebula's HOOK is ASYNC, so EYWA's network hook script(set_eywa_net.sh) works
 * Supporting VM/VR Migration.
 * Although the state sets of RESTRICTED_ATTR this is all commented out in oned.conf, it is necessary to allow only the necessary policy adjustments.
 * Independent on VM_HOOK's ASYNC
-* Providing the VR in Docker Container or Network Namespace.
+* Providing the VR in Docker or Namespace.
 
 ![Architecture of EYWA](etc-files/EYWA-Architecture.png)
 
