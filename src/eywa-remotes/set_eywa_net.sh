@@ -63,6 +63,8 @@ fi
 
 ## Create ARP Policy
 if [ "$ONE_IS_VR" == "yes" ]; then
+	### ①
 	sudo arptables -A FORWARD -j DROP -i vxlan$VXLAN_G_N -o vnet+ -s $VR_PRI_IP --opcode 1 ### ①
+	### ②
 	sudo arptables -A FORWARD -j DROP -i vnet+ -o vxlan$VXLAN_G_N -d $VR_PRI_IP --opcode 1 ### ②
 fi

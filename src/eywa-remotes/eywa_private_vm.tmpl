@@ -8,7 +8,7 @@ CONTEXT=[
 	SSH_PUBLIC_KEY="@@__SSH_PUB_KEY__@@",
 	ETH0_IP="$NIC[IP,NETWORK=\"@@__UID__@@-Private-Net\"]",
 	ETH0_MAC="$NIC[MAC,NETWORK=\"@@__UID__@@-Private-Net\"]",
-	ETH0_MASK="$NIC[NETWORK_MASK,NETWORK=\"@@__UID__@@-Private-Net\"]"
+	ETH0_MASK="255.0.0.0"
 ]
 
 CPU="1"
