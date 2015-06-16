@@ -250,8 +250,8 @@ do
 			${ssh_command} ${target} "yum install -y arptables && rpm -Uvh https://onedrive.live.com/download?resid=28f8f701dc29e4b9%2110251"
 		fi
 	fi
-	${ssh_command} "echo 'oneadmin    ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
-	${ssh_command} "echo 'Defaults env_keep -= \"HOME\"' >> /etc/sudoers"
+	${ssh_command} ${target} "echo 'oneadmin    ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+	${ssh_command} ${target} "echo 'Defaults env_keep -= \"HOME\"' >> /etc/sudoers"
 done
 
 while ! $(oneimage list | grep EYWA-Ubuntu | grep -q rdy); do echo; echo "[Notice] 'EYWA-Ubuntu-14.04_64' image is not ready.... please wait..."; su -l oneadmin -c 'oneimage list'; sleep 5; done
