@@ -232,12 +232,12 @@ if [ ! -d ${ONE_VAR}/files/eywa-vr ] || [ ! -d ${ONE_VAR}/files/eywa-vm ]; then
     chmod -R 755 ${ONE_VAR}/files/eywa-vr ${ONE_VAR}/files/eywa-vm
 fi
 
-onehost sync -f 2> /dev/null && su -l oneadmin -c "onehost sync -f" 2> /dev/null
+su -l oneadmin -c "onehost sync -f" 2> /dev/null || onehost sync -f 2> /dev/null
 if test ! -d /var/tmp/one/hooks/eywa; then
 	cp -a /var/lib/one/remotes/hooks/eywa /var/tmp/one/hooks/eywa
-	chown -R oneadmin:oneadmin /var/tmp/one/hooks/eywa
-	chmod 755 /var/tmp/one/hooks/eywa/*
 fi
+chown -R oneadmin:oneadmin /var/tmp/one/hooks/eywa
+chmod 755 /var/tmp/one/hooks/eywa/*
 
 export SSHPASS="${host_root_pw}"
 ssh_command="sshpass -e ssh -o StrictHostKeyChecking=no -l root"
