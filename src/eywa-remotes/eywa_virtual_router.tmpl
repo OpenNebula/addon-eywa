@@ -3,6 +3,7 @@ CONTEXT=[
 	ONE_UID="@@__UID__@@",
 	IS_EYWA="yes",
 	IS_VR="yes",
+	HAPROXY_CFG="http:0.0.0.0:8080:80:1000:100:10.0.0.3,10.0.0.4,10.0.0.5,10.0.0.6,10.0.0.7,10.0.0.8,10.0.0.9,10.0.0.10",
 	FILES="@@__ONE_VAR__@@/files/eywa-vr/init.sh @@__ONE_VAR__@@/files/eywa-vr/iptables.rules @@__ONE_VAR__@@/files/eywa-vr/haproxy-cfg-gen @@__ONE_VAR__@@/files/eywa-vr/haproxy.cfg.tmpl @@__ONE_VAR__@@/files/eywa-vr/haproxy.init @@__ONE_VAR__@@/.ssh",
 	PASSWD="@@__VM_ROOT_PW__@@",
 	SSH_PUBLIC_KEY="@@__SSH_PUB_KEY__@@",
@@ -16,8 +17,9 @@ CONTEXT=[
 	ETH1_MASK="255.0.0.0",
 	ETH1_NETWORK="$NIC[NETWORK_ADDRESS,NETWORK=\"@@__UID__@@-Private-Net\"]",
 	ETH1_GATEWAY="$NIC[GATEWAY,NETWORK=\"@@__UID__@@-Private-Net\"]",
-	GATEWAY_IFACE_NUM="0",
-	HAPROXY_CFG="http:0.0.0.0:8080:80:1000:100:10.0.0.3,10.0.0.4,10.0.0.5,10.0.0.6,10.0.0.7,10.0.0.8,10.0.0.9,10.0.0.10"
+	NETWORK="yes",
+	GATEWAY_IFACE="0",
+	GATEWAY_IFACE_NUM="0"
 ]
 CPU="1"
 VCPU="1"
