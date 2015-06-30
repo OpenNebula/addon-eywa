@@ -39,9 +39,9 @@ More info:
 * (Tested on Ubuntu14.04amd64 and CentOS7.x, we expect no problems in other platform.)
 * Add-on nature, Network highly dependent on environmental factors, there is a need for sufficient review of this Limitations and Requirements information.
 
-### SandBox: Two ways
+### SandBox for Testing
 
-+ With Fully-Automated Vagrant SandBox (Recommended)
++ With Fully-Automated Vagrant SandBox
  * Support Multiple Hosts: 3 nodes (1master/slave & 2slaves-only)
  * "install.sh" script does not have to be executed. (This addon-eywa is pre-installed/configured)
  * We were prepared so that you can try the simulated fully-automated SandBox experience EYWA, /w Vagrant.
