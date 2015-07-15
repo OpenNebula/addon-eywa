@@ -3,7 +3,7 @@
 ## Description
 
 * **EYWA** is "**E**lastic load-balancing & high-availablit**Y** **W**ired network **A**rchitecture".
-* Next-generation data center network architecture for IaaS.
+* Next-generation data center virtual network architecture for IaaS.
 
 ### About EYWA (SlideShare)
 
