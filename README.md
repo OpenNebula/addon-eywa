@@ -143,6 +143,7 @@ Most EYWA installation process is to place the files necessary to perform EYWA o
 
 ## Configuration
 
+* (Note) This section is a detailed description of the install.sh script.
 * You must correctly enter "environmental information".
 * EYWA is dependent on the mechanism of the Hook and Contextualization of OpenNebula.
 
