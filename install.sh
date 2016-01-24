@@ -220,6 +220,7 @@ fi
 if [ ! -d ${ONE_VAR}/files/eywa-vr ] || [ ! -d ${ONE_VAR}/files/eywa-vm ]; then
 	rm -rf ${ONE_VAR}/files/eywa-vr 2> /dev/null
 	rm -rf ${ONE_VAR}/files/eywa-vm 2> /dev/null
+	mkdir -p ${ONE_VAR}/files
 	cp -a src/eywa-files/eywa-vr ${ONE_VAR}/files/
 	cp -a src/eywa-files/eywa-vm ${ONE_VAR}/files/
 	chown oneadmin:oneadmin ${ONE_VAR}/files
