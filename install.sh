@@ -96,12 +96,8 @@ if [ -z ${oneadmin_pw} ]; then
 	exit 1
 fi
 
-read -p "Input Current ONE's Public Network Name (in 'Virtual Networks' list): " one_public_net
-if [ -z ${one_public_net} ]; then
-	echo
-	echo "[ERROR] Public Network Name is NULL"
-	exit 1
-fi
+read -p "Input Current ONE's Public Network Name (default: Public-Net): " one_public_net
+one_public_net=${one_public_net:-Public-Net}
 
 read -p "Input NIC name of private network for VxLAN (default: eth0): " private_nic
 private_nic=${private_nic:-eth0}
