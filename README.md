@@ -34,7 +34,7 @@ More info:
 * Optimization and compatibility was confirmed in OpenNebula 4.6 and 4.10.
 * Support Hypervisor: Currently only supports kvm.
  * (Recommended) "default" datastore's QCOW2 TM_MAD.
-* OpenNebula for the PoC was installed based on the document link in the following content.
+* Setup OpenNebula for PoC was installed based on the official document link in the following content.
  * http://docs.opennebula.org/4.10/design_and_installation/quick_starts/
 * (Tested on Ubuntu14.04amd64 and CentOS7.x, we expect no problems in other platform.)
 * Add-on nature, Network highly dependent on environmental factors, there is a need for sufficient review of this Limitations and Requirements information.
@@ -42,11 +42,11 @@ More info:
 ### SandBox for Testing
 
 + With Fully-Automated Vagrant SandBox
+ * GitHub: <a href="https://github.com/call518/EYWA-on-Vagrant" alt="Open the Repository of EYWA Vagrant SandBox" target="_blank">EYWA Vagrant SandBox</a>
  * Support Multiple Hosts: 3 nodes (1master/slave & 2slaves-only)
  * "install.sh" script does not have to be executed. (This addon-eywa is pre-installed/configured)
  * We were prepared so that you can try the simulated fully-automated SandBox experience EYWA, /w Vagrant.
  * SandBox and consists of Vagrant and the Puppet, can be downloaded from the following Repository to test it.
- * <a href="https://github.com/call518/EYWA-on-Vagrant" alt="Open the Repository of EYWA Vagrant SandBox" target="_blank">EYWA Vagrant SandBox</a>
 
 ## Features
 
